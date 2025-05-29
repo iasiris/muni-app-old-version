@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Muni</string>
+    <string name="ingresar">Ingresar</string>
+    <string name="crear_cuenta">Crea tu cuenta</string>
+    <string name="olvidaste_contraseña">Olvidaste tu contraseña?</string>
+    <string name="recuerdame">Recuerdame</string>
+    <string name="email">Email</string>
+    <string name="password">Contraseña</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="direccion">Dirección</string>
+    <string name="no_tienes_cuenta">No tienes una cuenta?</string>
+    <string name="registrate_aqui">Registrate aqui</string>
+    <string name="buscar">Buscar</string>
+    <string name="muni">Muni</string>
+    <string name="ver_todo">Ver todo</string>
+    <string name="categorias">Categorias</string>
+    <string name="ofertas_del_dia">Ofertas del dia</string>
+
+
+
+    <!-- Descripcion de Imagenes y Contenido-->
+    <string name="bolsas_compra">Bolsas de compra</string>
+    <string name="back_button">Back Button</string>
+    <string name="bebida">Bebida</string>
+    <string name="locacion_icon">Icon Location</string>
+    <string name="busqueda_icon">Icon Busqueda</string>
+    <string name="carrito_icon">Icon Carrito</string>">
+
+</resources>
