@@ -1,4 +1,4 @@
-package com.iasiris.muniapp.view.ui
+package com.iasiris.muniapp.view.ui.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,6 +31,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.iasiris.muniapp.R
 import com.iasiris.muniapp.data.model.Producto
 import com.iasiris.muniapp.ui.theme.MuniAppTheme
@@ -44,7 +47,11 @@ import com.iasiris.muniapp.utils.paddingMedium
 import com.iasiris.muniapp.utils.sizeLarge
 
 @Composable
-fun Home(modifier: Modifier = Modifier) {
+fun Home(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    viewModel: HomeViewModel = viewModel()
+) {
     //TODO mover a viewModel
     var query by remember { mutableStateOf("") }
     val categorias = listOf("Todo", "Computadoras", "Celulares", "Gaming")
@@ -164,6 +171,9 @@ fun HomeMainRow(
 @Composable
 fun HomePreview() {
     MuniAppTheme {
-        Home(Modifier.padding(paddingMedium))
+        Home(
+            Modifier.padding(paddingMedium),
+            navController = rememberNavController()
+        )
     }
 }

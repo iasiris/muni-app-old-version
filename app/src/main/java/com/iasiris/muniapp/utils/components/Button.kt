@@ -30,7 +30,7 @@ fun PrimaryButton(
     modifier: Modifier = Modifier.fillMaxWidth()
 ) {
     Button(
-        onClick = { onClick },
+        onClick = onClick,
         modifier = modifier
     ) {
         ButtonText(text = label)
@@ -43,7 +43,7 @@ fun SecondaryButton(
     onClick: () -> Unit
 ) {
     Button(
-        onClick = { onClick },
+        onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent

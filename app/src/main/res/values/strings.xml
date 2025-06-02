@@ -6,11 +6,13 @@
     <string name="recuerdame">Recuerdame</string>
     <string name="email">Email</string>
     <string name="password">Contraseña</string>
-    <string name="nombre">Nombre</string>
+    <string name="confirmar_password">Confirmar Contraseña</string>
+    <string name="nombre_completo">Nombre Completo</string>
     <string name="apellido">Apellido</string>
     <string name="direccion">Dirección</string>
     <string name="no_tienes_cuenta">No tienes una cuenta?</string>
     <string name="registrate_aqui">Registrate aqui</string>
+    <string name="registrate">Registrate</string>
     <string name="buscar">Buscar</string>
     <string name="muni">Muni</string>
     <string name="ver_todo">Ver todo</string>
