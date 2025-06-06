@@ -81,6 +81,7 @@ fun CaptionText(
 fun ButtonText(
     text: String,
     color: Color = MaterialTheme.colorScheme.onPrimary,
+    textAlign: TextAlign = TextAlign.Center,
     modifier: Modifier = Modifier
 ) {
     //14sp, Font Weight: Medium.
@@ -88,9 +89,10 @@ fun ButtonText(
         text = text,
         style = MaterialTheme.typography.labelLarge,
         color = color,
+        textAlign = textAlign,
+        maxLines = 1,
         modifier = modifier
     )
-
 }
 
 @Composable

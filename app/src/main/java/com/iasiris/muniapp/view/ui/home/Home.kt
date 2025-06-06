@@ -9,10 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ShoppingCart
@@ -22,10 +20,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -35,7 +29,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.iasiris.muniapp.R
-import com.iasiris.muniapp.data.model.Producto
+import com.iasiris.muniapp.data.model.products
 import com.iasiris.muniapp.ui.theme.MuniAppTheme
 import com.iasiris.muniapp.utils.components.CaptionText
 import com.iasiris.muniapp.utils.components.CustomCard
@@ -52,16 +46,6 @@ fun Home(
     navController: NavHostController,
     viewModel: HomeViewModel = viewModel()
 ) {
-    //TODO mover a viewModel
-    var query by remember { mutableStateOf("") }
-    val categorias = listOf("Todo", "Computadoras", "Celulares", "Gaming")
-    val productos = listOf(
-        Producto("Milanesa", "Loren ipsum", "123", true),
-        Producto("Hamburguesa", "Loren ipsum", "512", false),
-        Producto("Taco", "Loren ipsum", "253", false),
-        Producto("Empanada", "Loren ipsum", "963", true)
-    )
-
     Scaffold(
         modifier = modifier,
     ) {
@@ -72,10 +56,7 @@ fun Home(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            HomeMainRow(
-                onClickIcon = { /*TODO*/ }
-            )
+            HomeMainRow(navigateToCart = { }) //TODO navegar a la pantalla del carrito
 
             Spacer(modifier = Modifier.height(paddingMedium))
             //Locacion
@@ -84,37 +65,31 @@ fun Home(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
-
                 RowConIconoYLocacion(
                     location = "Lima, Peru",
                     tint = MaterialTheme.colorScheme.onSurface
                 )
             }
             //Busqueda
-            CustomSearchBar(searchText = query, onSearchTextChange = {})
+            CustomSearchBar(searchText = viewModel.query, onSearchTextChange = {})
             //Categorias
-            TituloConBotonVerTodo(title = stringResource(id = R.string.categorias))
+            TitleWithSeeAllButton(title = stringResource(id = R.string.categorias))
 
-            LazyRow {
-                items(categorias) { it ->
-                    PillCard(it)
-                }
-            }
+            LazyRow { items(viewModel.categories) { it -> PillCard(it) } }
 
             Spacer(modifier = Modifier.height(paddingMedium))
 
-            TituloConBotonVerTodo(title = stringResource(id = R.string.ofertas_del_dia))
+            TitleWithSeeAllButton(title = stringResource(id = R.string.specials_of_the_day))
 
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                modifier = Modifier.fillMaxSize()
-            ) {
-                items(productos) { producto ->
+            LazyColumn {
+                modifier.fillMaxSize() //TODO chequear si esto sirve para el LazyColumn
+                items(products) { product ->
                     CustomCard(
-                        titulo = producto.nombre,
-                        precio = producto.precio,
-                        descripcion = producto.descripcion,
-                        incluyeBebida = producto.incluyeBebida
+                        product = product,
+                        quantity = viewModel.quantity,
+                        onAdd = { viewModel.onAdd() },
+                        onRemove = { viewModel.onRemove() },
+                        onAddToCart = { viewModel.onAddToCart() }
                     )
                 }
             }
@@ -123,7 +98,7 @@ fun Home(
 }
 
 @Composable
-fun TituloConBotonVerTodo(title: String) {
+fun TitleWithSeeAllButton(title: String) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -132,7 +107,7 @@ fun TituloConBotonVerTodo(title: String) {
         SubheadText(text = title)
         TextButton(onClick = { /*TODO*/ }) {
             CaptionText(
-                text = stringResource(id = R.string.ver_todo),
+                text = stringResource(id = R.string.see_all),
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
@@ -141,7 +116,7 @@ fun TituloConBotonVerTodo(title: String) {
 
 @Composable
 fun HomeMainRow(
-    onClickIcon: () -> Unit
+    navigateToCart: () -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -156,11 +131,11 @@ fun HomeMainRow(
 
         IconButton(
             modifier = Modifier.size(sizeLarge),
-            onClick = { onClickIcon }
+            onClick = navigateToCart
         ) {
             Icon(
                 imageVector = Icons.Outlined.ShoppingCart,
-                contentDescription = stringResource(id = R.string.carrito_icon),
+                contentDescription = stringResource(id = R.string.cart_icon),
                 tint = MaterialTheme.colorScheme.onSurface
             )
         }

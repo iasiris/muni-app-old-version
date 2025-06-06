@@ -70,9 +70,9 @@ fun CustomSearchBar(
     OutlinedTextField(
         value = searchText,
         onValueChange = onSearchTextChange,
-        placeholder = {BodyText(text = stringResource(id = R.string.buscar), color = MaterialTheme.colorScheme.onSurfaceVariant)},
+        placeholder = {BodyText(text = stringResource(id = R.string.search), color = MaterialTheme.colorScheme.onSurfaceVariant)},
         leadingIcon = {
-            Icon(imageVector = Icons.Default.Search, contentDescription = stringResource(id = R.string.busqueda_icon))
+            Icon(imageVector = Icons.Default.Search, contentDescription = stringResource(id = R.string.search_icon))
         },
         singleLine = true,
         modifier = Modifier
