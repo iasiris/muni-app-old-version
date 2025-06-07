@@ -28,5 +28,6 @@
     <string name="cart_icon">Icon Carrito</string>">
     <string name="add">Icon Mas</string>">
     <string name="remove">Icon Menos</string>">
+    <string name="product_image">Imagen de Producto</string>">
 
 </resources>

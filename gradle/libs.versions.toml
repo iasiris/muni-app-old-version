@@ -1,5 +1,6 @@
 [versions]
 agp = "8.6.1"
+
 kotlin = "1.9.0"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -25,8 +26,8 @@ mpAndroidChart = "v3.1.0"
 #room
 androidxRoom = "2.6.1"
 #coil (replaces Glide)
-coil = "2.6.0"
-kotlinCompilerExtension = "1.5.1"
+coilCompose = "3.0.0"
+coilNetworkOkhttp = "3.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -64,11 +65,10 @@ androidx-room-runtime = { group = "androidx.room", name = "room-runtime", versio
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidxRoom" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "androidxRoom" }
 # coil
-coil-core = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
-coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
+coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilNetworkOkhttp" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-devtools-ksp = { id = "com.google.devtools.ksp", version = "1.9.22-1.0.17" }
 

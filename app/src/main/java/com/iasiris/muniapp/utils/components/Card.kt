@@ -1,16 +1,14 @@
 package com.iasiris.muniapp.utils.components
 
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,11 +26,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.iasiris.muniapp.R
 import com.iasiris.muniapp.data.model.Product
 import com.iasiris.muniapp.ui.theme.MuniAppTheme
@@ -64,49 +62,6 @@ fun PillCard(texto: String) {
 }
 
 @Composable
-fun CustomCard( //Cada ítem debe tener un botón para agregar al carrito y seleccionar cantidad.
-    product: Product,
-    quantity: Int,
-    onAdd: () -> Unit = {},
-    onRemove: () -> Unit = {},
-    onAddToCart: () -> Unit = {}
-) {
-    Card(
-        shape = RoundedCornerShape(16.dp),
-        modifier = Modifier
-            .padding(paddingExtraSmall)
-            .defaultMinSize(300.dp, 150.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(paddingSmall)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Center
-        ) {
-            BodyText(text = product.name)
-
-            Spacer(modifier = Modifier.height(paddingExtraSmall))
-
-            CaptionText(
-                text = product.description,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-
-            Spacer(modifier = Modifier.height(paddingSmall))
-
-            RowConPriceAndHasDrink(price = product.price, hasDrink = product.hasDrink)
-
-            RowWithAddCartAndQuantity(
-                quantity = quantity,
-                onAdd = onAdd,
-                onRemove = onRemove,
-                onAddToCart = onAddToCart
-            )
-        }
-    }
-}
-
-@Composable
 fun CardWithImageInTheLeft(
     product: Product,
     quantity: Int,
@@ -125,9 +80,12 @@ fun CardWithImageInTheLeft(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Image(
-                painter = painterResource(id = product.image.toInt()), //TODO usar Coil para managear imagenes
-                contentDescription = "",
+            AsyncImage( //TODO ISSUE NO RECUPERA LA IMAGEN -> Error loading image HTTP 504
+                model = product.imageUrl,
+                contentDescription = stringResource(id = R.string.product_image),
+                onError = {
+                    Log.i("AsyncImage", "Error loading image ${it.result.throwable.message}")
+                },
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .width(120.dp)
@@ -227,7 +185,14 @@ fun CardsPreview() {
                 texto = "Mountain"
             )
             CardWithImageInTheLeft(
-                Product("Milanesa", "Loren Impsum", "123", false, ""),
+                Product(
+                    "Milanesa",
+                    "Loren Impsum",
+                    "123",
+                    false,
+                    "https://images.pexels.com/photos/948421/pexels-photo-948421.jpeg",
+                    "Cafeteria"
+                ),
                 quantity = 1,
                 onAdd = {},
                 onRemove = {},

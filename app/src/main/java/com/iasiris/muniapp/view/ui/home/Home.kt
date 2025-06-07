@@ -32,7 +32,7 @@ import com.iasiris.muniapp.R
 import com.iasiris.muniapp.data.model.products
 import com.iasiris.muniapp.ui.theme.MuniAppTheme
 import com.iasiris.muniapp.utils.components.CaptionText
-import com.iasiris.muniapp.utils.components.CustomCard
+import com.iasiris.muniapp.utils.components.CardWithImageInTheLeft
 import com.iasiris.muniapp.utils.components.CustomSearchBar
 import com.iasiris.muniapp.utils.components.PillCard
 import com.iasiris.muniapp.utils.components.RowConIconoYLocacion
@@ -84,7 +84,7 @@ fun Home(
             LazyColumn {
                 modifier.fillMaxSize() //TODO chequear si esto sirve para el LazyColumn
                 items(products) { product ->
-                    CustomCard(
+                    CardWithImageInTheLeft(
                         product = product,
                         quantity = viewModel.quantity,
                         onAdd = { viewModel.onAdd() },
