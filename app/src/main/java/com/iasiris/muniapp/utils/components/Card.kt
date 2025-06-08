@@ -80,7 +80,8 @@ fun CardWithImageInTheLeft(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            AsyncImage( //TODO ISSUE NO RECUPERA LA IMAGEN -> Error loading image HTTP 504
+            //TODO agregar imagen por default mientras cargan las imagenes reales
+            AsyncImage(
                 model = product.imageUrl,
                 contentDescription = stringResource(id = R.string.product_image),
                 onError = {

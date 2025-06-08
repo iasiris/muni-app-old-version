@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">Muni</string>
-    <string name="login">Ingresar</string>
+    <string name="login">Iniciar sesión</string>
     <string name="create_account">Crea tu cuenta</string>
     <string name="forgot_password">Olvidaste tu contraseña?</string>
     <string name="remember_me">Recuerdame</string>
     <string name="email">Email</string>
     <string name="password">Contraseña</string>
+    <string name="invalid_login">Email o contraseña incorrectos</string>
     <string name="confirm_password">Confirmar Contraseña</string>
     <string name="full_name">Nombre Completo</string>
     <string name="do_not_have_account">No tienes una cuenta?</string>
@@ -29,5 +30,7 @@
     <string name="add">Icon Mas</string>">
     <string name="remove">Icon Menos</string>">
     <string name="product_image">Imagen de Producto</string>">
+    <string name="show_password">Mostrar contraseña</string>
+    <string name="hide_password">Ocultar contraseña</string>
 
 </resources>

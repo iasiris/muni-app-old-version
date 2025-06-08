@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.update
 class LoginViewModel : ViewModel() {
     //TODO dejar de usar valores harcodeados
     val fakeEmail: String = "a@a.com"
-    val fakePassword: String = "123456"
+    val fakePassword: String = "12345678"
 
     //el que accede y modifica el viewModel
     private val _loginUiState = MutableStateFlow(LoginUiState())
@@ -25,24 +25,32 @@ class LoginViewModel : ViewModel() {
     }
 
     fun onPasswordChange(password: String) {
-        _loginUiState.update { state -> // 'update' is thread-safe
+        _loginUiState.update { state ->
             state.copy(password = password)
         }
         verifyLogin()
     }
 
     private fun verifyLogin() {
-        val enabledLogin =
-            isEmailValid(_loginUiState.value.email) && isPasswordValid(_loginUiState.value.password)
+        val email = _loginUiState.value.email
+        val password = _loginUiState.value.password
+
+        val isEmailValid = isEmailValid(email)
+        val isPasswordValid = isPasswordValid(password)
+
         _loginUiState.update { state ->
-            state.copy(isLoginEnabled = enabledLogin)
+            state.copy(
+                isLoginEnabled = isEmailValid && isPasswordValid,
+                emailError = if (!isEmailValid && email.isNotEmpty()) "Email inválido" else null,
+                passwordError = if (!isPasswordValid && password.isNotEmpty()) "Contraseña tiene que tener al menos 8 caracteres" else null
+            )
         }
     }
 
     private fun isEmailValid(email: String): Boolean =
         Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
-    private fun isPasswordValid(password: String): Boolean = password.length >= 6
+    private fun isPasswordValid(password: String): Boolean = password.length >= 8
 
     fun onLogin(): Boolean {
         var isValid = false
@@ -57,11 +65,20 @@ class LoginViewModel : ViewModel() {
             state.copy(isRegisterSheetVisible = isRegisterSheetVisible)
         }
     }
+
+    fun onPasswordIconClick() {
+        _loginUiState.update { state ->
+            state.copy(passwordHidden = !state.passwordHidden)
+        }
+    }
 }
 
 data class LoginUiState(
     val email: String = "",
     val password: String = "",
     val isLoginEnabled: Boolean = false,
-    val isRegisterSheetVisible: Boolean = false
+    val isRegisterSheetVisible: Boolean = false,
+    val passwordHidden: Boolean = true,
+    val emailError: String? = null,
+    val passwordError: String? = null
 )

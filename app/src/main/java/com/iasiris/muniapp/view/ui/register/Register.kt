@@ -24,6 +24,7 @@ import com.iasiris.muniapp.R
 import com.iasiris.muniapp.navigation.Routes
 import com.iasiris.muniapp.ui.theme.MuniAppTheme
 import com.iasiris.muniapp.utils.components.CustomTextField
+import com.iasiris.muniapp.utils.components.CustomTextFieldPassword
 import com.iasiris.muniapp.utils.components.PrimaryButton
 import com.iasiris.muniapp.utils.components.SubheadText
 import com.iasiris.muniapp.utils.paddingExtraLarge
@@ -37,7 +38,7 @@ fun RegisterBottomSheet(
     registerViewModel: RegisterViewModel = viewModel(),
     onDismiss: () -> Unit
 ) {
-    val registerUiData by registerViewModel.registerUiState.collectAsStateWithLifecycle()
+    val registerUiState by registerViewModel.registerUiState.collectAsStateWithLifecycle()
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -56,16 +57,17 @@ fun RegisterBottomSheet(
             Spacer(modifier = Modifier.height(paddingMedium))
 
             CustomTextField(
-                value = registerUiData.email,
+                value = registerUiState.email,
                 onValueChange = registerViewModel::onEmailChange,
                 label = stringResource(id = R.string.email),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                errorMessage = registerUiState.emailError
             )
 
             Spacer(modifier = Modifier.height(paddingSmall))
 
             CustomTextField(
-                value = registerUiData.fullName,
+                value = registerUiState.fullName,
                 onValueChange = registerViewModel::onFullNameChange,
                 label = stringResource(id = R.string.full_name),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -73,22 +75,24 @@ fun RegisterBottomSheet(
 
             Spacer(modifier = Modifier.height(paddingSmall))
 
-            CustomTextField(
-                value = registerUiData.password,
+            CustomTextFieldPassword(
+                value = registerUiState.password,
                 onValueChange = registerViewModel::onPasswordChange,
                 label = stringResource(id = R.string.password),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                isPassword = true
+                passwordHidden = registerUiState.passwordHidden,
+                onVisibilityToggle = { registerViewModel.onPasswordIconClick() },
+                errorMessage = registerUiState.passwordError
             )
 
             Spacer(modifier = Modifier.height(paddingSmall))
 
-            CustomTextField(
-                value = registerUiData.confirmPassword,
+            CustomTextFieldPassword(
+                value = registerUiState.confirmPassword,
                 onValueChange = registerViewModel::onConfirmPasswordChange,
                 label = stringResource(id = R.string.confirm_password),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                isPassword = true
+                passwordHidden = registerUiState.passwordConfirmHidden,
+                onVisibilityToggle = { registerViewModel.onConfirmPasswordIconClick() },
+                errorMessage = registerUiState.passwordConfirmError
             )
 
             Spacer(modifier = Modifier.height(paddingMedium))
@@ -100,7 +104,7 @@ fun RegisterBottomSheet(
                         navController.navigate(Routes.Home.name)
                     }
                 },
-                enabled = registerUiData.isRegisterEnabled
+                enabled = registerUiState.isRegisterEnabled
             )
             Spacer(modifier = Modifier.height(paddingMedium))
         }

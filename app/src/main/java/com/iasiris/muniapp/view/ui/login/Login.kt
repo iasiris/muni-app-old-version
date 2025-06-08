@@ -14,9 +14,13 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,11 +38,13 @@ import com.iasiris.muniapp.navigation.Routes
 import com.iasiris.muniapp.ui.theme.MuniAppTheme
 import com.iasiris.muniapp.utils.components.CaptionText
 import com.iasiris.muniapp.utils.components.CustomTextField
+import com.iasiris.muniapp.utils.components.CustomTextFieldPassword
 import com.iasiris.muniapp.utils.components.PrimaryButton
 import com.iasiris.muniapp.utils.paddingLarge
 import com.iasiris.muniapp.utils.paddingMedium
 import com.iasiris.muniapp.utils.paddingSmall
 import com.iasiris.muniapp.view.ui.register.RegisterBottomSheet
+import kotlinx.coroutines.launch
 
 @Composable
 fun Login(
@@ -47,6 +53,9 @@ fun Login(
     loginViewModel: LoginViewModel = viewModel()
 ) {
     val loginUiState by loginViewModel.loginUiState.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+    val invalidLogin = stringResource(id = R.string.invalid_login)
 
     if (loginUiState.isRegisterSheetVisible) {
         RegisterBottomSheet(
@@ -56,8 +65,8 @@ fun Login(
     }
 
     Scaffold(
-        modifier = modifier
-            .fillMaxSize()
+        modifier = modifier.fillMaxSize(),
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -91,16 +100,19 @@ fun Login(
                         label = stringResource(id = R.string.email),
                         value = loginUiState.email,
                         onValueChange = loginViewModel::onEmailChange,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                        errorMessage = loginUiState.emailError
                     )
 
                     Spacer(modifier = Modifier.height(paddingMedium))
 
-                    CustomTextField(
+                    CustomTextFieldPassword(
                         label = stringResource(id = R.string.password),
                         value = loginUiState.password,
                         onValueChange = loginViewModel::onPasswordChange,
-                        isPassword = true
+                        passwordHidden = loginUiState.passwordHidden,
+                        onVisibilityToggle = { loginViewModel.onPasswordIconClick() },
+                        errorMessage = loginUiState.passwordError
                     )
 
                     Spacer(modifier = Modifier.height(paddingMedium))
@@ -112,6 +124,10 @@ fun Login(
                         onClick = {
                             if (loginViewModel.onLogin()) {
                                 navController.navigate(Routes.Home.name)
+                            } else {
+                                coroutineScope.launch {
+                                    snackbarHostState.showSnackbar(invalidLogin)
+                                }
                             }
                         },
                         enabled = loginUiState.isLoginEnabled

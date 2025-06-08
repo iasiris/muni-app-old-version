@@ -33,7 +33,7 @@ val products = listOf(
         "Description 3",
         "30.00",
         true,
-        "https://images.pexels.com/photos/1397309/pexels-photo-1397309.jpeg",
+        "https://images.pexels.com/photos/2739250/pexels-photo-2739250.jpeg",
         "Helado"
     ),
     Product(
