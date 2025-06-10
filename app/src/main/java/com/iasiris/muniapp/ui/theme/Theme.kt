@@ -1,6 +1,5 @@
 package com.iasiris.muniapp.ui.theme
 
-
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -12,32 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-
-/*private val DarkColorScheme = darkColorScheme(
-    primary = GreenAccent,
-    onPrimary = White,
-    secondary = DarkText,
-    onSecondary = White,
-    background = LightGray,
-    surface = White,
-    onBackground = DarkText,
-    onSurface = DarkText,
-    error = Red,
-    onError = White,
-)
-
-private val LightColorScheme = lightColorScheme(
-    primary = GreenAccent,
-    onPrimary = White,
-    secondary = DarkText,
-    onSecondary = White,
-    background = LightGray,
-    surface = White,
-    onBackground = DarkText,
-    onSurface = DarkText,
-    error = Red,
-    onError = White,
-)*/
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,

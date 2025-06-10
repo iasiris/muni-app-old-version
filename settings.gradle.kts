@@ -22,4 +22,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "MuniApp"
 include(":app")
- 
+include(":feature:home")
+include(":feature:login")
+include(":data")
+include(":library:utils")
+include(":core:model")

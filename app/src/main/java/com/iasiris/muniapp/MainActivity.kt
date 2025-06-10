@@ -13,14 +13,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.iasiris.muniapp.navigation.Routes
+import com.iasiris.feature.home.Home
+import com.iasiris.feature.login.login.Login
 import com.iasiris.muniapp.ui.theme.MuniAppTheme
-import com.iasiris.muniapp.utils.paddingLarge
-import com.iasiris.muniapp.view.ui.home.Home
-import com.iasiris.muniapp.view.ui.login.Login
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -46,7 +45,11 @@ fun MuniApp() {
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(top = paddingLarge, start = paddingLarge, end = paddingLarge),
+            .padding(
+                top = 24.dp,
+                start = 24.dp,
+                end = 24.dp
+            ),
         containerColor = MaterialTheme.colorScheme.background
     ) {
         AppScreen(Modifier.padding(it))
@@ -58,10 +61,10 @@ fun AppScreen(padding: Modifier) {
     val navigationController = rememberNavController()
     NavHost(
         navController = navigationController,
-        startDestination = Routes.Login.name
+        startDestination = "Login"
     ) { //TODO agregar if para chequear si usuario esta loggeado, si esta loggeado llevar directamente a home
-        composable(Routes.Login.name) { Login(padding, navigationController) }
-        composable(Routes.Home.name) { Home(padding, navigationController) }
+        composable("Login") { Login(padding, navigationController) }
+        composable("Home") { Home(padding, navigationController) }
     }
 }
 
