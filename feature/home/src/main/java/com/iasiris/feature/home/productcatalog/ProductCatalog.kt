@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -56,10 +57,9 @@ import com.iasiris.library.utils.ui.components.BodyText
 import com.iasiris.library.utils.ui.components.CaptionText
 import com.iasiris.library.utils.ui.components.CustomSearchBar
 import com.iasiris.library.utils.ui.components.PillCard
-import com.iasiris.library.utils.ui.components.RowConPriceAndHasDrink
+import com.iasiris.library.utils.ui.components.RowWithPriceAndHasDrink
 import com.iasiris.library.utils.ui.theme.MuniAppTheme
 import com.iasiris.library.utils.ui.theme.Shapes
-
 
 @Composable
 fun ProductCatalog(
@@ -70,7 +70,7 @@ fun ProductCatalog(
     val prodCatUiState by prodCatViewModel.prodCatUiState.collectAsStateWithLifecycle()
 
     Scaffold(
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
     ) {
         Column(
             modifier = Modifier
@@ -108,7 +108,8 @@ fun ProductCatalog(
             LazyColumn {
                 items(prodCatUiState.products) { product ->
                     CardWithImageInTheLeft(
-                        product = product
+                        product = product,
+                        navController = navController
                     )
                 }
             }
@@ -118,7 +119,8 @@ fun ProductCatalog(
 
 @Composable
 fun CardWithImageInTheLeft(
-    product: Product
+    product: Product,
+    navController: NavHostController
 ) {
     Card(
         shape = RoundedCornerShape(16.dp),
@@ -126,6 +128,9 @@ fun CardWithImageInTheLeft(
             .padding(paddingExtraSmall)
             .height(120.dp)
             .fillMaxWidth()
+            .clickable {
+                navController.navigate("ProductDetail") // TODO pasar id del producto para navegar
+            }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -160,7 +165,11 @@ fun CardWithImageInTheLeft(
 
                 Spacer(modifier = Modifier.height(paddingSmall))
 
-                RowConPriceAndHasDrink(price = product.price, hasDrink = product.hasDrink)
+                RowWithPriceAndHasDrink(
+                    price = product.price,
+                    hasDrink = product.hasDrink,
+                    fontWeight = FontWeight.Medium
+                )
             }
         }
     }
@@ -204,7 +213,7 @@ fun PillCardWithDropDownMenu(
             Icon(
                 imageVector = Icons.Default.Reorder,
                 contentDescription = stringResource(id = R.string.dropwdown_menu),
-                tint = MaterialTheme.colorScheme.primary, //todo check this color
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(sizeMedium)
             )
         }
@@ -242,7 +251,6 @@ fun PillCardWithDropDownMenu(
             }
         }
     }
-
 }
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -250,7 +258,6 @@ fun PillCardWithDropDownMenu(
 fun ProductCatalogPreview() {
     MuniAppTheme {
         ProductCatalog(
-            Modifier.padding(paddingMedium),
             navController = rememberNavController()
         )
     }

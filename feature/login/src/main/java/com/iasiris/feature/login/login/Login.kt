@@ -66,11 +66,11 @@ fun Login(
     Scaffold(
         modifier = modifier.fillMaxSize(),
         snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) { paddingValues ->
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
+                .padding(it),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -164,7 +164,6 @@ fun Login(
 fun LoginPreview() {
     MuniAppTheme {
         Login(
-            Modifier.padding(paddingMedium),
             navController = rememberNavController()
         )
     }

@@ -15,41 +15,6 @@ class HomeViewModel : ViewModel() {
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState: StateFlow<HomeUiState> = _homeUiState
 
-    fun onAdd() { //TODO check this
-        Log.d("HomeViewModel", "quantity: ${_homeUiState.value.quantity}")
-        if (_homeUiState.value.quantity < _homeUiState.value.MAX_QUANTITY) {
-            _homeUiState.update { state ->
-                var quantity = _homeUiState.value.quantity
-                state.copy(quantity = quantity++)
-            }
-            Log.d("HomeViewModel", "onAdd: $${_homeUiState.value.quantity}")
-        } else {
-            //TODO mostrar notificacion de error
-        }
-    }
-
-    fun onRemove() {
-        Log.d("HomeViewModel", "quantity: ${_homeUiState.value.quantity}")
-        if (_homeUiState.value.quantity > _homeUiState.value.MIN_QUANTITY) {
-            _homeUiState.update { state ->
-                var quantity = _homeUiState.value.quantity
-                state.copy(quantity = quantity--)
-            }
-            Log.d("HomeViewModel", "onRemove: ${_homeUiState.value.quantity}")
-        } else {
-            //TODO mostrar notificacion de error
-        }
-    }
-
-    fun onAddToCart() {
-        //TODO agregar Implementación
-    }
-
-    fun getProducts() {
-        _homeUiState.update { state ->
-            state.copy(products = productRepository.getProducts())
-        }
-    }
 }
 
 data class HomeUiState(

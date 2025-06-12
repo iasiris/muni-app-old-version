@@ -9,8 +9,9 @@ import kotlinx.coroutines.flow.update
 
 class ProductCatalogViewModel : ViewModel() {
     private val productRepository = ProductRepository()
-    private val _prodCatUiState = MutableStateFlow(ProductCatalogUiState())
     private val allProducts = productRepository.getProducts()
+
+    private val _prodCatUiState = MutableStateFlow(ProductCatalogUiState())
     val prodCatUiState: StateFlow<ProductCatalogUiState> = _prodCatUiState
 
     init {

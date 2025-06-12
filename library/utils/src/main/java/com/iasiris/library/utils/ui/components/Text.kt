@@ -1,5 +1,6 @@
 package com.iasiris.library.utils.ui.components
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
@@ -18,14 +19,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import com.iasiris.library.utils.R
 import com.iasiris.library.utils.paddingExtraSmall
 import com.iasiris.library.utils.sizeMedium
+import com.iasiris.library.utils.ui.theme.MuniAppTheme
 
 @Composable
 fun SubheadText(
     text: String,
-    fontWeight: FontWeight = FontWeight.Bold,
+    fontWeight: FontWeight,
     color: Color = MaterialTheme.colorScheme.onSurface,
     modifier: Modifier = Modifier,
     maxLines: Int = Int.MAX_VALUE,
@@ -109,26 +112,21 @@ fun OverlainText(
     )
 }
 
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun RowWithIconAndLocation(
-    location: String,
-    tint: Color = MaterialTheme.colorScheme.onSurfaceVariant
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            imageVector = Icons.Filled.LocationOn,
-            contentDescription = stringResource(id = R.string.locacion_icon),
-            tint = tint,
-            modifier = Modifier.size(sizeMedium)
-        )
+fun ProductDetailPreview() {
+    MuniAppTheme {
+        Column {
+            SubheadText(text = "Mountain", FontWeight.Bold)
 
-        Spacer(modifier = Modifier.width(paddingExtraSmall))
+            BodyText(text = "Mountain")
 
-        BodyText(
-            text = location,
-            color = tint
-        )
+            CaptionText(text = "Mountain")
+
+            ButtonText(text = "Mountain", color = Color.Black)
+
+            OverlainText(text = "Mountain")
+
+        }
     }
 }

@@ -91,9 +91,10 @@ fun RowWithAddCartAndQuantity(
 }
 
 @Composable
-fun RowConPriceAndHasDrink(
+fun RowWithPriceAndHasDrink(
     price: Double = 0.0,
-    hasDrink: Boolean
+    hasDrink: Boolean,
+    fontWeight: FontWeight
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -102,12 +103,36 @@ fun RowConPriceAndHasDrink(
     ) {
         SubheadText(
             text = "$$price",
-            fontWeight = FontWeight.Medium
+            fontWeight = fontWeight
         )
         Icon(
             imageVector = if (hasDrink) Icons.Filled.LocalBar else Icons.Outlined.NoDrinks,
             contentDescription = stringResource(id = R.string.drink),
             tint = if (hasDrink) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
+
+@Composable
+fun RowWithQuantityAndTotalAmount(
+    quantity: Int,
+    totalAmount: Double
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        SubheadText(
+            text = if (quantity == 1) stringResource(
+                R.string.one_product,
+                quantity
+            ) else stringResource(R.string.products, quantity),
+            fontWeight = FontWeight.Bold
+        )
+        SubheadText(
+            text = "$$totalAmount",
+            fontWeight = FontWeight.Bold
         )
     }
 }
@@ -130,13 +155,22 @@ fun CardsPreview() {
                 onClick = {}
             )
             Spacer(modifier = Modifier.height(paddingMedium))
-            RowConPriceAndHasDrink(
+            RowWithPriceAndHasDrink(
                 price = 10.0,
-                hasDrink = true
+                hasDrink = true,
+                fontWeight = FontWeight.Medium
             )
             Spacer(modifier = Modifier.height(paddingMedium))
             RowWithAddCartAndQuantity(
-                quantity = 1
+                quantity = 1,
+            )
+            RowWithQuantityAndTotalAmount(
+                quantity = 1,
+                totalAmount = 10.0
+            )
+            RowWithQuantityAndTotalAmount(
+                quantity = 2,
+                totalAmount = 10.0
             )
         }
     }

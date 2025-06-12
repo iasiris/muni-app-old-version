@@ -46,10 +46,9 @@ class ProductRepository {
         )
     )
 
-    fun getProducts(): List<Product> = products
-
-    fun getProductsByCategory(): (String) -> List<Product> = { category ->
-        products.filter { it.category == category }
+    fun getProduct(name: String): Product? {
+        return products.find { it.name == name }
     }
 
+    fun getProducts(): List<Product> = products
 }

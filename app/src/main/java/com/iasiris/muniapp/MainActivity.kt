@@ -18,6 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.iasiris.feature.home.home.Home
+import com.iasiris.feature.home.productdetail.ProductDetail
 import com.iasiris.feature.login.login.Login
 import com.iasiris.muniapp.ui.theme.MuniAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,7 +46,6 @@ fun MuniApp() {
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
-
         containerColor = MaterialTheme.colorScheme.background
     ) {
         AppScreen(Modifier.padding(it))
@@ -53,14 +53,17 @@ fun MuniApp() {
 }
 
 @Composable
-fun AppScreen(padding: Modifier) {
+fun AppScreen(modifier: Modifier) {
     val navigationController = rememberNavController()
     NavHost(
         navController = navigationController,
-        startDestination = "Home"
+        startDestination = "ProductDetail"
     ) { //TODO agregar if para chequear si usuario esta loggeado, si esta loggeado llevar directamente a home
-        composable("Login") { Login(padding, navigationController) }
-        composable("Home") { Home(padding, navigationController) }
+        composable("Login") { Login(modifier, navigationController) }
+        composable("Home") { Home(modifier, navigationController) }
+        //composable("ProductCatalog") { ProductCatalog(padding, navigationController) }
+        composable("ProductDetail") { ProductDetail(modifier, navigationController) }
+        //composable("Cart") { Cart(padding, navigationController) }
     }
 }
 

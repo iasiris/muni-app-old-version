@@ -20,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -42,7 +43,7 @@ fun Home(
     val homeUiState by homeViewModel.homeUiState.collectAsStateWithLifecycle()
 
     Scaffold(
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
     ) {
         Column(
             modifier = Modifier
@@ -78,7 +79,8 @@ fun HomeMainRow( //TODO convertir en topbar
 
         SubheadText(
             text = stringResource(id = R.string.muni),
-            textAlign = TextAlign.Left
+            textAlign = TextAlign.Left,
+            fontWeight = FontWeight.Bold
         )
 
         IconButton(

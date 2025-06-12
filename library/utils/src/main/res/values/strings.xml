@@ -20,8 +20,8 @@
     <string name="specials_of_the_day">Ofertas del dia</string>
     <string name="order_by">Ordenar</string>
     <string name="add_to_cart">Agregar</string>
-
-
+    <string name="one_product">%1$s producto</string>
+    <string name="products">%1$s productos</string>
 
 
     <!-- Descripcion de Imagenes y Contenido-->
@@ -36,6 +36,7 @@
     <string name="product_image">Imagen de Producto</string>">
     <string name="show_password">Mostrar contraseña</string>
     <string name="hide_password">Ocultar contraseña</string>
+
 
 
 </resources>
