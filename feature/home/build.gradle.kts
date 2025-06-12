@@ -58,8 +58,13 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     //navigation component
     implementation(libs.androidx.navigation.compose)
+    //coil (Replaces Glide)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
 }

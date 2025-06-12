@@ -85,7 +85,8 @@ class RegisterViewModel : ViewModel() {
             val newUser = User(
                 email = _registerUiState.value.email,
                 fullName = _registerUiState.value.fullName,
-                password = _registerUiState.value.password
+                password = _registerUiState.value.password,
+                userImageUrl = ""
             )
             userRepository.addUser(newUser) //TODO agregar usuario a memoria
             Log.i("RegisterViewModel", "Usuario agregado: ${users.toString()}")

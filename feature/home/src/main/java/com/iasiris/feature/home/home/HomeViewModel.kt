@@ -1,4 +1,4 @@
-package com.iasiris.feature.home
+package com.iasiris.feature.home.home
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

@@ -149,5 +149,4 @@ fun CustomSearchBar(
             focusedLeadingIconColor = MaterialTheme.colorScheme.primary
         )
     )
-
 }

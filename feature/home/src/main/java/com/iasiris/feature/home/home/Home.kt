@@ -1,4 +1,4 @@
-package com.iasiris.feature.home
+package com.iasiris.feature.home.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,16 +9,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -30,12 +26,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.iasiris.feature.home.R
+import com.iasiris.feature.home.productcatalog.ProductCatalog
 import com.iasiris.library.utils.paddingMedium
 import com.iasiris.library.utils.sizeLarge
-import com.iasiris.library.utils.ui.components.CaptionText
-import com.iasiris.library.utils.ui.components.CustomSearchBar
-import com.iasiris.library.utils.ui.components.PillCard
-import com.iasiris.library.utils.ui.components.RowWithIconAndLocation
 import com.iasiris.library.utils.ui.components.SubheadText
 import com.iasiris.library.utils.ui.theme.MuniAppTheme
 
@@ -60,77 +54,26 @@ fun Home(
             HomeMainRow(navigateToCart = { }) //TODO navegar a la pantalla del carrito
 
             Spacer(modifier = Modifier.height(paddingMedium))
-            //Locacion
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                RowWithIconAndLocation(
-                    location = "Lima, Peru",
-                    tint = MaterialTheme.colorScheme.onSurface
-                )
-            }
-            //Busqueda
-            CustomSearchBar(
-                searchText = homeUiState.query,
-                onSearchTextChange = {})
-            //Categorias
-            TitleWithSeeAllButton(title = stringResource(id = R.string.categorias))
 
-            LazyRow {
-                items(homeViewModel.categories) { it ->
-                    PillCard(
-                        it
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(paddingMedium))
-
-            TitleWithSeeAllButton(title = stringResource(id = R.string.specials_of_the_day))
-
-            LazyColumn {
-                modifier.fillMaxSize() //TODO chequear si esto sirve para el LazyColumn
-                items(homeUiState.products) { product ->
-                    CardWithImageInTheLeft(
-                        product = product,
-                        quantity = homeUiState.quantity,
-                        onAdd = { homeViewModel.onAdd() },
-                        onRemove = { homeViewModel.onRemove() },
-                        onAddToCart = { homeViewModel.onAddToCart() }
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun TitleWithSeeAllButton(title: String) {
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        SubheadText(text = title)
-        TextButton(onClick = { /*TODO*/ }) {
-            CaptionText(
-                text = stringResource(id = R.string.see_all),
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+            ProductCatalog(
+                modifier = Modifier.padding(paddingMedium),
+                navController = navController
             )
+
         }
     }
 }
 
 @Composable
-fun HomeMainRow(
+fun HomeMainRow( //TODO convertir en topbar
     navigateToCart: () -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = paddingMedium)
     ) {
 
         SubheadText(

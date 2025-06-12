@@ -5,47 +5,51 @@ import com.iasiris.core.model.Product
 class ProductRepository {
     private val products = listOf(
         Product(
-            "Product 1",
-            "Description 1",
-            "10.00",
+            "Tacos al pastor",
+            "Tortillas con carne de cerdo marinada, pi\u00f1a y cebolla.",
+            "https://comedera.com/wp-content/uploads/sites/9/2017/08/tacos-al-pastor-receta.jpg",
+            45.0,
             true,
-            "https://images.pexels.com/photos/1055272/pexels-photo-1055272.jpeg",
-            "Cafeteria"
+            "Tacos"
         ),
         Product(
-            "Product 2",
-            "Description 2",
-            "20.00",
+            "Hamburguesa clásica",
+            "Pan artesanal, carne de res, lechuga, tomate y mayonesa.",
+            "https://imag.bonviveur.com/hamburguesa-clasica.jpg",
+            70.0,
             false,
-            "https://images.pexels.com/photos/2739250/pexels-photo-2739250.jpeg",
-            "Hamburguesa"
+            "Hamburguesas"
         ),
         Product(
-            "Product 3",
-            "Description 3",
-            "30.00",
-            true,
-            "https://images.pexels.com/photos/2739250/pexels-photo-2739250.jpeg",
-            "Helado"
-        ),
-        Product(
-            "Product 4",
-            "Description 4",
-            "40.00",
+            "Pizza margarita",
+            "Salsa de tomate, mozzarella y albahaca fresca.",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDx46gfGPL3XKmoiXU_pQzvINxjjOFsXLoAA&s",
+            120.0,
             false,
-            "https://images.pexels.com/photos/29793760/pexels-photo-29793760/free-photo-of-deliciosa-pizza-de-queso-y-verduras-en-plato.jpeg",
-            "Pizza"
+            "Pizzas"
         ),
         Product(
-            "Product 5",
-            "Description 5",
-            "50.00",
+            "Hot dog especial",
+            "Salchicha jumbo, tocino, cebolla caramelizada y mostaza.",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaKqDVCWtGQzA2-d1WvRmTfPi0krczx2pwzQ&s",
+            50.0,
             true,
-            "https://images.pexels.com/photos/948421/pexels-photo-948421.jpeg",
-            "Pizza"
+            "Hot Dogs"
+        ),
+        Product(
+            "Empanadas de carne",
+            "Empanadas rellenas de carne molida y especias.",
+            "https://assets.unileversolutions.com/recipes-v3/237001-default.jpg",
+            60.0,
+            false,
+            "Empanadas"
         )
     )
 
     fun getProducts(): List<Product> = products
+
+    fun getProductsByCategory(): (String) -> List<Product> = { category ->
+        products.filter { it.category == category }
+    }
 
 }

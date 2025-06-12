@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.iasiris.library.utils.R
 import com.iasiris.library.utils.paddingSmall
 import com.iasiris.library.utils.sizeMedium
+import com.iasiris.library.utils.ui.theme.MuniAppTheme
 
 @Composable
 fun PrimaryButton(
@@ -149,7 +150,7 @@ fun QuantityButtons(
 @Preview(showBackground = true)
 @Composable
 fun PreviewButtons() {
-    MaterialTheme {
+    MuniAppTheme {
         Column {
             PrimaryButton(
                 label = "Enviar",

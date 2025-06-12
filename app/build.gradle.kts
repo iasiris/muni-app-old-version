@@ -84,9 +84,7 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
-    //coil (Replaces Glide)
-    implementation(libs.coil.compose)
-    implementation(libs.coil.network.okhttp)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
