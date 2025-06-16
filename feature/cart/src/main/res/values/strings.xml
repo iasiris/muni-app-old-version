@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Muni</string>
     <string name="login">Iniciar sesión</string>
@@ -18,11 +17,13 @@
     <string name="see_all">Ver todo</string>
     <string name="categorias">Categorias</string>
     <string name="specials_of_the_day">Ofertas del dia</string>
-    <string name="order_by">Ordenar</string>
-    <string name="add_to_cart">Agregar</string>
-    <string name="one_product">%1$s producto</string>
-    <string name="products">%1$s productos</string>
-
+    <string name="order_featured">Destacados</string>
+    <string name="price_low_to_high">Menor Precio</string>
+    <string name="price_high_to_low">Mayor Precio </string>
+    <string name="cart_title">Carrito</string>
+    <string name="cart_subtotal">Subtotal</string>
+    <string name="delivery_fee">Gestión de Delivery </string>
+    <string name="cart_total">Total %1$s</string>
 
     <!-- Descripcion de Imagenes y Contenido-->
     <string name="shopping_bag">Bolsas de compra</string>
@@ -36,8 +37,6 @@
     <string name="product_image">Imagen de Producto</string>">
     <string name="show_password">Mostrar contraseña</string>
     <string name="hide_password">Ocultar contraseña</string>
-    <string name="delete_icon">Borrar Icon</string>
-
-
+    <string name="dropwdown_menu">Menu desplegable</string>
 
 </resources>

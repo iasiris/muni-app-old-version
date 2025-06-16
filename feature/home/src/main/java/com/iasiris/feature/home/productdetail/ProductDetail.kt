@@ -18,21 +18,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.iasiris.feature.home.R
-import com.iasiris.library.utils.paddingExtraSmall
 import com.iasiris.library.utils.paddingMedium
 import com.iasiris.library.utils.paddingSmall
 import com.iasiris.library.utils.ui.components.BodyText
 import com.iasiris.library.utils.ui.components.RowWithAddCartAndQuantity
 import com.iasiris.library.utils.ui.components.RowWithPriceAndHasDrink
-import com.iasiris.library.utils.ui.components.RowWithQuantityAndTotalAmount
+import com.iasiris.library.utils.ui.components.RowWithQuantityAndAmount
 import com.iasiris.library.utils.ui.components.SubheadText
-import com.iasiris.library.utils.ui.theme.MuniAppTheme
 
 @Composable
 fun ProductDetail(//TODO usar hilt para pasar id de producto
@@ -96,11 +93,13 @@ fun ProductDetail(//TODO usar hilt para pasar id de producto
                     .fillMaxWidth()
                     .padding(start = paddingMedium, end = paddingMedium, bottom = paddingMedium)
             ) {
-                RowWithQuantityAndTotalAmount(
+                RowWithQuantityAndAmount(
                     quantity = prodDetailUiState.quantity,
                     totalAmount = prodDetailUiState.totalAmount
                 )
+
                 Spacer(modifier = Modifier.height(paddingMedium))
+
                 RowWithAddCartAndQuantity(
                     quantity = prodDetailUiState.quantity,
                     onAdd = prodDetailViewModel::onAdd,

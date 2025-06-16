@@ -112,19 +112,15 @@ fun OverlainText(
     )
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun ProductDetailPreview() {
     MuniAppTheme {
         Column {
             SubheadText(text = "Mountain", FontWeight.Bold)
-
             BodyText(text = "Mountain")
-
             CaptionText(text = "Mountain")
-
             ButtonText(text = "Mountain", color = Color.Black)
-
             OverlainText(text = "Mountain")
 
         }

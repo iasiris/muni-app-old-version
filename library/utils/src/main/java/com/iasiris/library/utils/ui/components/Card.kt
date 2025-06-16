@@ -12,11 +12,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.LocalBar
 import androidx.compose.material.icons.outlined.NoDrinks
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.iasiris.library.utils.R
@@ -114,7 +117,7 @@ fun RowWithPriceAndHasDrink(
 }
 
 @Composable
-fun RowWithQuantityAndTotalAmount(
+fun RowWithQuantityAndAmount(
     quantity: Int,
     totalAmount: Double
 ) {
@@ -133,6 +136,83 @@ fun RowWithQuantityAndTotalAmount(
         SubheadText(
             text = "$$totalAmount",
             fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+fun RowWithTextAndAmount(
+    text: String,
+    totalAmount: Double
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        SubheadText(
+            text = text,
+            fontWeight = FontWeight.Normal
+        )
+        SubheadText(
+            text = "$$totalAmount",
+            fontWeight = FontWeight.Normal
+        )
+    }
+}
+
+@Composable
+fun RowWithNameAndDeleteIcon(
+    text: String,
+    onDelete: () -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        SubheadText(text = text, fontWeight = FontWeight.Bold)
+
+        IconButton(
+            onClick = onDelete
+        ) {
+            Icon(
+                imageVector = Icons.Default.Close,
+                contentDescription = "",//stringResource(id = R.string.delete_icon),
+                tint = Color.Gray,
+            )
+        }
+    }
+}
+
+@Composable
+fun RowWithPriceAndButtons(
+    price: Double = 0.0,
+    quantity: Int,
+    onAdd: () -> Unit = {},
+    onRemove: () -> Unit = {}
+){
+    Row (
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = paddingSmall)
+    ){
+        SubheadText(
+            text = "$$price",
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.weight(2f),
+            textAlign = TextAlign.Start
+        )
+
+        QuantityButtons(
+            quantity = quantity,
+            onAdd = onAdd,
+            onRemove = onRemove,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
         )
     }
 }
@@ -164,13 +244,27 @@ fun CardsPreview() {
             RowWithAddCartAndQuantity(
                 quantity = 1,
             )
-            RowWithQuantityAndTotalAmount(
+            RowWithQuantityAndAmount(
                 quantity = 1,
                 totalAmount = 10.0
             )
-            RowWithQuantityAndTotalAmount(
+            RowWithQuantityAndAmount(
                 quantity = 2,
                 totalAmount = 10.0
+            )
+            RowWithTextAndAmount(
+                text = "Subtotal",
+                totalAmount = 10.0
+            )
+            RowWithNameAndDeleteIcon(
+                text = "Product Name",
+                onDelete = { }
+            )
+            RowWithPriceAndButtons(
+                price = 10.0,
+                quantity = 1,
+                onAdd = {},
+                onRemove = {}
             )
         }
     }
