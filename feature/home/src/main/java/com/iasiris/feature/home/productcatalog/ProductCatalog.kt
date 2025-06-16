@@ -21,11 +21,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Reorder
+import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Scaffold
@@ -40,37 +42,37 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
 import com.iasiris.core.model.Product
 import com.iasiris.feature.home.R
 import com.iasiris.library.utils.paddingExtraSmall
 import com.iasiris.library.utils.paddingMedium
 import com.iasiris.library.utils.paddingSmall
+import com.iasiris.library.utils.sizeLarge
 import com.iasiris.library.utils.sizeMedium
 import com.iasiris.library.utils.ui.components.BodyText
 import com.iasiris.library.utils.ui.components.CaptionText
 import com.iasiris.library.utils.ui.components.CustomSearchBar
 import com.iasiris.library.utils.ui.components.PillCard
 import com.iasiris.library.utils.ui.components.RowWithPriceAndHasDrink
+import com.iasiris.library.utils.ui.components.SubheadText
 import com.iasiris.library.utils.ui.theme.MuniAppTheme
 import com.iasiris.library.utils.ui.theme.Shapes
 
 @Composable
 fun ProductCatalog(
-    modifier: Modifier = Modifier,
-    navController: NavHostController, //TODO navegar a product
+    navigateToProductDetail: (String) -> Unit = {},
     prodCatViewModel: ProductCatalogViewModel = viewModel()
 ) {
     val prodCatUiState by prodCatViewModel.prodCatUiState.collectAsStateWithLifecycle()
 
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(
             modifier = Modifier
@@ -79,12 +81,20 @@ fun ProductCatalog(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            HomeMainRow(navigateToCart = { }) //TODO navegar a la pantalla del carrito
+
+            Spacer(modifier = Modifier.height(paddingMedium))
+
             CustomSearchBar(
                 searchText = prodCatUiState.searchText,
                 onSearchTextChange = { prodCatViewModel.onSearchTextChange(it) }
             )
 
-            Row {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = paddingMedium)
+            ) {
                 LazyRow {
                     item {
                         PillCardWithDropDownMenu(
@@ -105,11 +115,15 @@ fun ProductCatalog(
                 }
             }
 
-            LazyColumn {
+            LazyColumn (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = paddingMedium)
+            ){
                 items(prodCatUiState.products) { product ->
                     CardWithImageInTheLeft(
                         product = product,
-                        navController = navController
+                        navigateToProductDetail = navigateToProductDetail
                     )
                 }
             }
@@ -118,9 +132,40 @@ fun ProductCatalog(
 }
 
 @Composable
+fun HomeMainRow( //TODO convertir en topbar
+    navigateToCart: () -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = paddingMedium)
+    ) {
+
+        SubheadText(
+            text = stringResource(id = R.string.muni),
+            textAlign = TextAlign.Left,
+            fontWeight = FontWeight.Bold
+        )
+
+        IconButton(
+            modifier = Modifier.size(sizeLarge),
+            onClick = navigateToCart
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.ShoppingCart,
+                contentDescription = stringResource(id = R.string.cart_icon),
+                tint = MaterialTheme.colorScheme.onSurface
+            )
+        }
+    }
+}
+
+@Composable
 fun CardWithImageInTheLeft(
     product: Product,
-    navController: NavHostController
+    navigateToProductDetail: (String) -> Unit = {}
 ) {
     Card(
         shape = RoundedCornerShape(16.dp),
@@ -129,7 +174,7 @@ fun CardWithImageInTheLeft(
             .height(120.dp)
             .fillMaxWidth()
             .clickable {
-                navController.navigate("ProductDetail") // TODO pasar id del producto para navegar
+                navigateToProductDetail(product.name)
             }
     ) {
         Row(
@@ -181,9 +226,9 @@ fun PillCardWithDropDownMenu(
     onOrderSelected: (PriceOrder) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-    val isSelected = selectedOrder != PriceOrder.NONE
+    val isSelected = selectedOrder != PriceOrder.FEATURED
     val options = listOf(
-        PriceOrder.NONE to stringResource(id = R.string.no_order),
+        PriceOrder.FEATURED to stringResource(id = R.string.order_featured),
         PriceOrder.ASCENDING to stringResource(id = R.string.price_low_to_high),
         PriceOrder.DESCENDING to stringResource(id = R.string.price_high_to_low)
     )
@@ -253,12 +298,12 @@ fun PillCardWithDropDownMenu(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun ProductCatalogPreview() {
     MuniAppTheme {
         ProductCatalog(
-            navController = rememberNavController()
+            navigateToProductDetail = { }
         )
     }
 }

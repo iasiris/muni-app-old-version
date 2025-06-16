@@ -42,7 +42,7 @@ class ProductCatalogViewModel : ViewModel() {
             val sortedProducts = when (order) {
                 PriceOrder.ASCENDING -> state.products.sortedBy { it.price }
                 PriceOrder.DESCENDING -> state.products.sortedByDescending { it.price }
-                PriceOrder.NONE -> filterProducts(state.searchText, state.selectedCategory)
+                PriceOrder.FEATURED -> filterProducts(state.searchText, state.selectedCategory)
             }
             state.copy(selectedOrder = order, products = sortedProducts)
         }
@@ -76,11 +76,11 @@ data class ProductCatalogUiState(
         "Empanadas"
     ), //TODO TAKE THIS FROM API
     val selectedCategory: String = "",
-    val selectedOrder: PriceOrder = PriceOrder.NONE
+    val selectedOrder: PriceOrder = PriceOrder.FEATURED
 )
 
 enum class PriceOrder {
-    NONE,
+    FEATURED,
     ASCENDING,
     DESCENDING
 }

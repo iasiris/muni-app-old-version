@@ -47,8 +47,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun Login(
-    modifier: Modifier = Modifier,
-    navController: NavHostController,
+    navigateToHome: () -> Unit,
     loginViewModel: LoginViewModel = viewModel()
 ) {
     val loginUiState by loginViewModel.loginUiState.collectAsStateWithLifecycle()
@@ -58,13 +57,13 @@ fun Login(
 
     if (loginUiState.isRegisterSheetVisible) {
         RegisterBottomSheet(
-            navController,
+            navigateToHome,
             onDismiss = { loginViewModel.setShowRegistrationSheet(false) }
         )
     }
 
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) {
         Column(
@@ -122,7 +121,7 @@ fun Login(
                         label = stringResource(id = R.string.login),
                         onClick = {
                             if (loginViewModel.onLogin()) {
-                                navController.navigate("Home")
+                                navigateToHome
                             } else {
                                 coroutineScope.launch {
                                     snackbarHostState.showSnackbar(invalidLogin)
@@ -164,7 +163,7 @@ fun Login(
 fun LoginPreview() {
     MuniAppTheme {
         Login(
-            navController = rememberNavController()
+            navigateToHome = {}
         )
     }
 }

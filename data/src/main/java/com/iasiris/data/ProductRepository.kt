@@ -1,5 +1,6 @@
 package com.iasiris.data
 
+import android.util.Log
 import com.iasiris.core.model.Product
 
 class ProductRepository {
@@ -46,8 +47,13 @@ class ProductRepository {
         )
     )
 
-    fun getProduct(name: String): Product? {
-        return products.find { it.name == name }
+    fun getProductByName(name: String): Product { //TODO work on this logic
+        var product = products.find { it.name == name }
+        if (product == null) {
+            product = Product("","","",0.0,false, "")
+        }
+        Log.d("ProductRepository", "getProductByName: $product")
+        return product
     }
 
     fun getProducts(): List<Product> = products

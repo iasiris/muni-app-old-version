@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -20,8 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
 import com.iasiris.feature.home.R
 import com.iasiris.library.utils.paddingExtraSmall
@@ -35,14 +35,17 @@ import com.iasiris.library.utils.ui.components.SubheadText
 import com.iasiris.library.utils.ui.theme.MuniAppTheme
 
 @Composable
-fun ProductDetail( //TODO pasar por nav un producto y conectar prod con viewModel
-    modifier: Modifier = Modifier, navController: NavHostController, //TODO navegar a cart
-    prodDetailViewModel: ProductDetailViewModel = viewModel()
+fun ProductDetail(//TODO usar hilt para pasar id de producto
+    prodId: String,
+    navigateToCart: () -> Unit = {}, //TODO navegar a cart,
+    prodDetailViewModel: ProductDetailViewModel = viewModel(
+        factory = ProductDetailViewModelFactory(prodId)
+    )
 ) {
     val prodDetailUiState by prodDetailViewModel.prodDetailUiState.collectAsStateWithLifecycle()
 
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
     ) {
         Column(
             modifier = Modifier
@@ -65,11 +68,14 @@ fun ProductDetail( //TODO pasar por nav un producto y conectar prod con viewMode
                     modifier = Modifier
                         .height(300.dp)
                         .fillMaxWidth()
+                        .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
                 )
+
+                Spacer(modifier = Modifier.height(paddingMedium))
 
                 SubheadText(text = prodDetailUiState.product.name, fontWeight = FontWeight.Bold)
 
-                Spacer(modifier = Modifier.height(paddingExtraSmall))
+                Spacer(modifier = Modifier.height(paddingSmall))
 
                 BodyText(
                     text = prodDetailUiState.product.description,
@@ -88,7 +94,7 @@ fun ProductDetail( //TODO pasar por nav un producto y conectar prod con viewMode
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = paddingMedium)
+                    .padding(start = paddingMedium, end = paddingMedium, bottom = paddingMedium)
             ) {
                 RowWithQuantityAndTotalAmount(
                     quantity = prodDetailUiState.quantity,
@@ -99,19 +105,12 @@ fun ProductDetail( //TODO pasar por nav un producto y conectar prod con viewMode
                     quantity = prodDetailUiState.quantity,
                     onAdd = prodDetailViewModel::onAdd,
                     onRemove = prodDetailViewModel::onRemove,
-                    onAddToCart = { prodDetailViewModel.onAddToCart() })
+                    navigateToCart = {
+                        prodDetailViewModel::onAddToCart
+                        navigateToCart()
+                    })
             }
 
         }
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun ProductDetailPreview() {
-    MuniAppTheme {
-        ProductDetail(
-            navController = rememberNavController()
-        )
     }
 }

@@ -34,7 +34,7 @@ import com.iasiris.library.utils.ui.theme.MuniAppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterBottomSheet(
-    navController: NavHostController,
+    navigateToHome: () -> Unit,
     registerViewModel: RegisterViewModel = viewModel(),
     onDismiss: () -> Unit
 ) {
@@ -102,7 +102,7 @@ fun RegisterBottomSheet(
                 label = stringResource(id = R.string.sing_in),
                 onClick = {
                     if (registerViewModel.onRegister()) {
-                        navController.navigate("Routes")
+                        navigateToHome
                     }
                 },
                 enabled = registerUiState.isRegisterEnabled
@@ -117,7 +117,7 @@ fun RegisterBottomSheet(
 fun RegisterPreview() {
     MuniAppTheme {
         RegisterBottomSheet(
-            navController = rememberNavController(),
+            navigateToHome = {},
             onDismiss = { }
         )
     }

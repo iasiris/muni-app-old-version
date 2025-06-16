@@ -17,7 +17,7 @@
     <string name="see_all">Ver todo</string>
     <string name="categorias">Categorias</string>
     <string name="specials_of_the_day">Ofertas del dia</string>
-    <string name="no_order">Ninguno</string>
+    <string name="order_featured">Destacados</string>
     <string name="price_low_to_high">Menor Precio</string>
     <string name="price_high_to_low">Mayor Precio </string>
 

@@ -9,18 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.iasiris.library.utils.ui.theme.MuniAppTheme
 
 @Composable
 fun Cart(
-    modifier: Modifier = Modifier,
-    navController: NavHostController, //TODO navegar Checkout final
+    navigateToCheckout: () -> Unit = {}, //TODO navegar Checkout final
     cartViewModel: CartViewModel = viewModel()
 ) {
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
     ) {
         Column(
             modifier = Modifier
@@ -28,17 +25,21 @@ fun Cart(
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Top
         ) {
+            //lazy column con productos del carrito
+            //subtotal
+            //delivery fee
+            //button con total que lleva a detalle de compra
 
         }
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun CartPreview() {
     MuniAppTheme {
         Cart(
-            navController = rememberNavController()
+            navigateToCheckout = {}
         )
     }
 }

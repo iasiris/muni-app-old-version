@@ -6,20 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.iasiris.feature.home.home.Home
-import com.iasiris.feature.home.productdetail.ProductDetail
-import com.iasiris.feature.login.login.Login
+import com.iasiris.muniapp.navigation.NavigationWrapper
 import com.iasiris.muniapp.ui.theme.MuniAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,46 +21,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             MuniAppTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background)
                 ) {
-                    MuniApp()
+                    NavigationWrapper()
                 }
             }
         }
-    }
-}
-
-@Composable
-fun MuniApp() {
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-        containerColor = MaterialTheme.colorScheme.background
-    ) {
-        AppScreen(Modifier.padding(it))
-    }
-}
-
-@Composable
-fun AppScreen(modifier: Modifier) {
-    val navigationController = rememberNavController()
-    NavHost(
-        navController = navigationController,
-        startDestination = "ProductDetail"
-    ) { //TODO agregar if para chequear si usuario esta loggeado, si esta loggeado llevar directamente a home
-        composable("Login") { Login(modifier, navigationController) }
-        composable("Home") { Home(modifier, navigationController) }
-        //composable("ProductCatalog") { ProductCatalog(padding, navigationController) }
-        composable("ProductDetail") { ProductDetail(modifier, navigationController) }
-        //composable("Cart") { Cart(padding, navigationController) }
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun GreetingPreview() {
-    MuniAppTheme {
-        MuniApp()
     }
 }

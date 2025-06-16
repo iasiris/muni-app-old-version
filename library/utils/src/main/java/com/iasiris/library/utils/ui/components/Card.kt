@@ -66,7 +66,7 @@ fun RowWithAddCartAndQuantity(
     quantity: Int,
     onAdd: () -> Unit = {},
     onRemove: () -> Unit = {},
-    onAddToCart: () -> Unit = {}
+    navigateToCart: () -> Unit = {}
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -82,7 +82,7 @@ fun RowWithAddCartAndQuantity(
         Spacer(modifier = Modifier.width(paddingSmall))
         PrimaryButton(
             label = stringResource(id = R.string.add_to_cart),
-            onClick = onAddToCart,
+            onClick = navigateToCart,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(2f)
