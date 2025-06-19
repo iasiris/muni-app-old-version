@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.iasiris.feature.cart"
+    namespace = "com.iasiris.feature.profile"
     compileSdk = 35
 
     defaultConfig {

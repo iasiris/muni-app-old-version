@@ -38,9 +38,10 @@ import com.iasiris.library.utils.paddingSmall
 import com.iasiris.library.utils.ui.components.BackButtonConTitle
 import com.iasiris.library.utils.ui.components.CaptionText
 import com.iasiris.library.utils.ui.components.PrimaryButton
+import com.iasiris.library.utils.ui.components.RowWithBodyTextAndAmount
 import com.iasiris.library.utils.ui.components.RowWithNameAndDeleteIcon
 import com.iasiris.library.utils.ui.components.RowWithPriceAndButtons
-import com.iasiris.library.utils.ui.components.RowWithTextAndAmount
+import com.iasiris.library.utils.ui.components.RowWithSubheadTextAndAmount
 import com.iasiris.library.utils.ui.theme.MuniAppTheme
 
 @Composable
@@ -59,12 +60,12 @@ fun Cart(
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Top
         ) {
-            BackButtonConTitle(
+            BackButtonConTitle(//TODO agregar logica para back button
                 title = stringResource(id = R.string.cart_title),
-                onBackButtonClick = { } //TODO agregar logica para back button
+                onBackButtonClick = { }
             )
 
-            LazyColumn(
+            LazyColumn( //TODO fix scrollable content
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = paddingMedium)
@@ -72,7 +73,10 @@ fun Cart(
             ) {
                 itemsIndexed(cartUiState.products) { index, product ->
                     CardWithImageInTheLeft(
-                        product = product
+                        product = product,
+                        onAdd = { cartViewModel.onAddProduct(product) },
+                        onRemove = { cartViewModel.onRemoveProduct(product) },
+                        onDelete = { cartViewModel.onDeleteProduct(product) }
                     )
                     if (index < cartUiState.products.lastIndex) {
                         HorizontalDivider(
@@ -85,25 +89,33 @@ fun Cart(
                 }
             }
 
-            Spacer(modifier = Modifier.height(paddingMedium))
+            Spacer(modifier = Modifier.height(paddingSmall))
 
             Column(
                 modifier = Modifier.padding(horizontal = paddingMedium)
             ) {
-                RowWithTextAndAmount(
+                RowWithBodyTextAndAmount(
                     text = stringResource(id = R.string.cart_subtotal),
-                    totalAmount = 10.0 // TODO reemplazar por el subtotal real
+                    totalAmount = cartUiState.subTotal
                 )
 
-                RowWithTextAndAmount(
+                RowWithBodyTextAndAmount(
                     text = stringResource(id = R.string.delivery_fee),
-                    totalAmount = 10.0 // TODO reemplazar por el subtotal real
+                    totalAmount = cartUiState.deliveryFee
                 )
 
-                PrimaryButton(
+                Spacer(modifier = Modifier.height(paddingSmall))
+
+                RowWithSubheadTextAndAmount(
+                    text = stringResource(id = R.string.cart_total),
+                    totalAmount = cartUiState.totalAmount
+                )
+
+                Spacer(modifier = Modifier.height(paddingMedium))
+
+                PrimaryButton( //TODO agregar proceso de checkout
                     label = stringResource(
-                        id = R.string.cart_total,
-                        cartUiState.totalAmount.toString()
+                        id = R.string.checkout
                     ),
                     onClick = navigateToCheckout
                 )
@@ -118,7 +130,10 @@ fun Cart(
 
 @Composable
 fun CardWithImageInTheLeft(
-    product: Product
+    product: Product,
+    onAdd: () -> Unit,
+    onRemove: () -> Unit,
+    onDelete: () -> Unit
 ) {
     Card(
         shape = RoundedCornerShape(16.dp),
@@ -127,7 +142,6 @@ fun CardWithImageInTheLeft(
             .padding(paddingExtraSmall)
             .height(120.dp)
             .fillMaxWidth()
-
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -153,7 +167,7 @@ fun CardWithImageInTheLeft(
             ) {
                 RowWithNameAndDeleteIcon(
                     text = product.name,
-                    onDelete = { /*TODO: Implement delete action*/ },
+                    onDelete = onDelete,
                 )
 
                 CaptionText(
@@ -163,9 +177,9 @@ fun CardWithImageInTheLeft(
 
                 RowWithPriceAndButtons(
                     price = product.price,
-                    quantity = 1, //TODO: Replace with actual quantity from cart
-                    onAdd = {}, //TODO
-                    onRemove = { }, //TODO
+                    quantity = product.quantity,
+                    onAdd = onAdd,
+                    onRemove = onRemove
                 )
             }
         }

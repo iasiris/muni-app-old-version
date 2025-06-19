@@ -1,6 +1,5 @@
 package com.iasiris.data
 
-import android.util.Log
 import com.iasiris.core.model.Product
 
 class ProductRepository {
@@ -11,7 +10,8 @@ class ProductRepository {
             "https://comedera.com/wp-content/uploads/sites/9/2017/08/tacos-al-pastor-receta.jpg",
             45.0,
             true,
-            "Tacos"
+            "Tacos",
+            2
         ),
         Product(
             "Hamburguesa clásica",
@@ -43,16 +43,16 @@ class ProductRepository {
             "https://assets.unileversolutions.com/recipes-v3/237001-default.jpg",
             60.0,
             false,
-            "Empanadas"
+            "Empanadas",
+            5
         )
     )
 
     fun getProductByName(name: String): Product { //TODO work on this logic
         var product = products.find { it.name == name }
         if (product == null) {
-            product = Product("","","",0.0,false, "")
+            product = Product("", "", "", 0.0, false, "")
         }
-        Log.d("ProductRepository", "getProductByName: $product")
         return product
     }
 

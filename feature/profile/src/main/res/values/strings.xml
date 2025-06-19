@@ -1,0 +1,9 @@
+<resources>
+    <string name="profile_title">Perfil</string>
+
+
+
+
+    <!-- Descripcion de Imagenes y Contenido-->
+<string name="user_icon">Icono usuario</string>
+</resources>

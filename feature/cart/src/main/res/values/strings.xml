@@ -21,9 +21,10 @@
     <string name="price_low_to_high">Menor Precio</string>
     <string name="price_high_to_low">Mayor Precio </string>
     <string name="cart_title">Carrito</string>
-    <string name="cart_subtotal">Subtotal</string>
-    <string name="delivery_fee">Gestión de Delivery </string>
-    <string name="cart_total">Total %1$s</string>
+    <string name="cart_subtotal">Productos</string>
+    <string name="delivery_fee">Envio</string>
+    <string name="cart_total">Total</string>
+    <string name="checkout">Pagar</string>
 
     <!-- Descripcion de Imagenes y Contenido-->
     <string name="shopping_bag">Bolsas de compra</string>

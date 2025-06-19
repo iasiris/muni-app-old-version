@@ -51,7 +51,8 @@ class LoginViewModel : ViewModel() {
 
     fun onLogin(): Boolean {
         var isValid = false
-        if (_loginUiState.value.email == userRepository.getUser().email && _loginUiState.value.password == userRepository.getUser().password) {
+        val user = userRepository.getUserByEmail(_loginUiState.value.email)
+        if (_loginUiState.value.email == user.email && _loginUiState.value.password == user.password) {
             isValid = true
         }
         return isValid

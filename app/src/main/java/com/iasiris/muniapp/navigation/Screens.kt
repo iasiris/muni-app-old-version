@@ -12,4 +12,7 @@ object ProductCatalog
 data class ProductDetail(val id: String)
 
 @Serializable
-object Cart
+object Cart // data class Cart(val products: List<String>)
+
+@Serializable
+object Profile

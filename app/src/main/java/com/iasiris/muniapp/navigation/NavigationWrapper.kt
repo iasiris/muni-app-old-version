@@ -5,16 +5,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.iasiris.feature.cart.Cart
 import com.iasiris.feature.home.productcatalog.ProductCatalog
 import com.iasiris.feature.home.productdetail.ProductDetail
 import com.iasiris.feature.login.login.Login
+import com.iasiris.feature.profile.Profile
 
 @Composable
 fun NavigationWrapper() {
     val navigationController = rememberNavController()
     NavHost(
         navController = navigationController,
-        startDestination = ProductCatalog
+        startDestination = Cart
     ) { //TODO agregar if para chequear si usuario esta loggeado, si esta loggeado llevar directamente a home
         composable<Login> {
             Login(
@@ -34,7 +36,19 @@ fun NavigationWrapper() {
             )
         }
         composable<Cart> {
-            //TODO implementar cart
+            /*
+            navBackStackEntry ->
+            val products: Cart = navBackStackEntry.toRoute()
+            Cart(
+                products,
+                navigateToCheckout = { navigationController.navigate(Checkout) }
+            )*/
+            Cart(
+                navigateToCheckout = { }
+            )
+        }
+        composable<Profile> {
+            Profile()
         }
     }
 }

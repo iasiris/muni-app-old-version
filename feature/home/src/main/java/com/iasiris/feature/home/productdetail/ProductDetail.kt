@@ -94,17 +94,17 @@ fun ProductDetail(//TODO usar hilt para pasar id de producto
                     .padding(start = paddingMedium, end = paddingMedium, bottom = paddingMedium)
             ) {
                 RowWithQuantityAndAmount(
-                    quantity = prodDetailUiState.quantity,
+                    quantity = prodDetailUiState.product.quantity,
                     totalAmount = prodDetailUiState.totalAmount
                 )
 
                 Spacer(modifier = Modifier.height(paddingMedium))
 
                 RowWithAddCartAndQuantity(
-                    quantity = prodDetailUiState.quantity,
+                    quantity = prodDetailUiState.product.quantity,
                     onAdd = prodDetailViewModel::onAdd,
                     onRemove = prodDetailViewModel::onRemove,
-                    navigateToCart = {
+                    navigateTo = {
                         prodDetailViewModel::onAddToCart
                         navigateToCart()
                     })

@@ -69,7 +69,7 @@ fun RowWithAddCartAndQuantity(
     quantity: Int,
     onAdd: () -> Unit = {},
     onRemove: () -> Unit = {},
-    navigateToCart: () -> Unit = {}
+    navigateTo: () -> Unit = {}
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -85,7 +85,7 @@ fun RowWithAddCartAndQuantity(
         Spacer(modifier = Modifier.width(paddingSmall))
         PrimaryButton(
             label = stringResource(id = R.string.add_to_cart),
-            onClick = navigateToCart,
+            onClick = navigateTo,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(2f)
@@ -141,7 +141,7 @@ fun RowWithQuantityAndAmount(
 }
 
 @Composable
-fun RowWithTextAndAmount(
+fun RowWithSubheadTextAndAmount(
     text: String,
     totalAmount: Double
 ) {
@@ -152,9 +152,30 @@ fun RowWithTextAndAmount(
     ) {
         SubheadText(
             text = text,
-            fontWeight = FontWeight.Normal
+            fontWeight = FontWeight.Bold
         )
         SubheadText(
+            text = "$$totalAmount",
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+fun RowWithBodyTextAndAmount(
+    text: String,
+    totalAmount: Double
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        BodyText(
+            text = text,
+            fontWeight = FontWeight.Normal
+        )
+        BodyText(
             text = "$$totalAmount",
             fontWeight = FontWeight.Normal
         )
@@ -252,7 +273,11 @@ fun CardsPreview() {
                 quantity = 2,
                 totalAmount = 10.0
             )
-            RowWithTextAndAmount(
+            RowWithSubheadTextAndAmount(
+                text = "Total",
+                totalAmount = 10.0
+            )
+            RowWithBodyTextAndAmount(
                 text = "Subtotal",
                 totalAmount = 10.0
             )

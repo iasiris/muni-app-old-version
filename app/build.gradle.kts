@@ -54,7 +54,8 @@ android {
 }
 
 dependencies {
-
+    implementation(project(":feature:profile"))
+    implementation(project(":feature:cart"))
     implementation(project(":feature:home"))
     implementation(project(":feature:login"))
 

@@ -20,12 +20,12 @@ class ProductDetailViewModel(
     val prodDetailUiState: StateFlow<ProductDetailUiState> = _prodDetailUiState
 
     fun onAdd() {
-        val currentQuantity = _prodDetailUiState.value.quantity
+        val currentQuantity = _prodDetailUiState.value.product.quantity
         if (currentQuantity < _prodDetailUiState.value.MAX_QUANTITY) {
             _prodDetailUiState.update { state ->
                 val newQuantity = currentQuantity + 1
                 state.copy(
-                    quantity = newQuantity,
+                    product = state.product.copy(quantity = newQuantity),
                     totalAmount = newQuantity * state.product.price
                 )
 
@@ -36,12 +36,12 @@ class ProductDetailViewModel(
     }
 
     fun onRemove() {
-        val currentQuantity = _prodDetailUiState.value.quantity
+        val currentQuantity = _prodDetailUiState.value.product.quantity
         if (currentQuantity > _prodDetailUiState.value.MIN_QUANTITY) {
             _prodDetailUiState.update { state ->
                 val newQuantity = currentQuantity - 1
                 state.copy(
-                    quantity = newQuantity,
+                    product = state.product.copy(quantity = newQuantity),
                     totalAmount = newQuantity * state.product.price
                 )
             }
@@ -59,6 +59,5 @@ data class ProductDetailUiState(
     val product: Product,
     val MAX_QUANTITY: Int = 10,
     val MIN_QUANTITY: Int = 1,
-    val quantity: Int = 1,
     val totalAmount: Double
 )
