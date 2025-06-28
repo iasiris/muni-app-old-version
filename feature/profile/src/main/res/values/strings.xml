@@ -1,5 +1,10 @@
 <resources>
     <string name="profile_title">Perfil</string>
+    <string name="email_label">Email</string>
+    <string name="password">Password</string>
+    <string name="fullname_label">Nombre Completo</string>
+    <string name="nationality_label">Nacionalidad</string>
+    <string name="save_changes">Guardar cambios</string>
 
 
 

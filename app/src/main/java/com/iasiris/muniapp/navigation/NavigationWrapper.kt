@@ -16,7 +16,7 @@ fun NavigationWrapper() {
     val navigationController = rememberNavController()
     NavHost(
         navController = navigationController,
-        startDestination = Cart
+        startDestination = Profile
     ) { //TODO agregar if para chequear si usuario esta loggeado, si esta loggeado llevar directamente a home
         composable<Login> {
             Login(

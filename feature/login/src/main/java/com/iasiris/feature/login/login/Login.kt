@@ -158,7 +158,7 @@ fun Login(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun LoginPreview() {
     MuniAppTheme {

@@ -7,7 +7,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-class CartViewModel : ViewModel() { //TODO agregar procesos asincronicos
+class CartViewModel : ViewModel() {
+    //TODO agregar procesos asincronicos
+    //TODO agregar CartRepository para manejar la logica de negocio
     private val productRepository = ProductRepository()
     private val allProducts = productRepository.getProducts()
 

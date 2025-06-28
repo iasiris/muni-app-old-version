@@ -11,4 +11,6 @@ class UserRepository {
     }
 
     fun addUser(user: User) {}
+
+    fun updateUser(user: User) {}
 }
