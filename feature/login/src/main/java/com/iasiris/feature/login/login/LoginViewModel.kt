@@ -2,16 +2,19 @@ package com.iasiris.feature.login.login
 
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.iasiris.data.UserRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginViewModel : ViewModel() {
     private val userRepository = UserRepository()
-    //el que accede y modifica el viewModel
+
     private val _loginUiState = MutableStateFlow(LoginUiState())
-    //lo escucha los composables
     val loginUiState: StateFlow<LoginUiState> = _loginUiState
 
     fun onEmailChange(email: String) {
@@ -49,13 +52,14 @@ class LoginViewModel : ViewModel() {
 
     private fun isPasswordValid(password: String): Boolean = password.length >= 8
 
-    fun onLogin(): Boolean {
-        var isValid = false
-        val user = userRepository.getUserByEmail(_loginUiState.value.email)
-        if (_loginUiState.value.email == user.email && _loginUiState.value.password == user.password) {
-            isValid = true
+    fun onLogin(onResult: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            val isValid = withContext(Dispatchers.IO) {
+                val user = userRepository.getUserByEmail(_loginUiState.value.email)
+                _loginUiState.value.email == user.email && _loginUiState.value.password == user.password
+            }
+            onResult(isValid)
         }
-        return isValid
     }
 
     fun setShowRegistrationSheet(isRegisterSheetVisible: Boolean) {

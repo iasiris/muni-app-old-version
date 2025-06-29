@@ -13,7 +13,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -117,7 +116,7 @@ fun CustomTextFieldPassword(
             errorMessage?.let {
                 BodyText(text = it, color = Color.Red)
             }
-        },
+        }
     )
 }
 
@@ -145,6 +144,57 @@ fun CustomOutlinedTextField(
             unfocusedBorderColor = MaterialTheme.colorScheme.surfaceDim,
             focusedBorderColor = MaterialTheme.colorScheme.primary
         ),
+    )
+}
+
+@Composable
+fun CustomOutlinedTextFieldPassword(
+    label: String,
+    text: String,
+    onValueChange: (String) -> Unit,
+    leadingIcon: ImageVector,
+    passwordHidden: Boolean,
+    onVisibilityToggle: () -> Unit,
+    errorMessage: String? = null
+) {
+    OutlinedTextField(
+        value = text,
+        onValueChange = onValueChange,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = paddingExtraLarge, vertical = paddingSmall),
+        label = { CaptionText(text = label) },
+        singleLine = true,
+        shape = Shapes.large,
+        leadingIcon = {
+            Icon(imageVector = leadingIcon, contentDescription = "")
+        },
+        colors = OutlinedTextFieldDefaults.colors(
+            //unfocusedContainerColor = Color.White,
+            unfocusedBorderColor = MaterialTheme.colorScheme.surfaceDim,
+            focusedBorderColor = MaterialTheme.colorScheme.primary
+        ),
+        visualTransformation = if (passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,
+        trailingIcon = {
+            IconButton(onClick = onVisibilityToggle) {
+                val visibilityIcon =
+                    if (passwordHidden) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+                val description = if (passwordHidden)
+                    stringResource(id = R.string.show_password)
+                else
+                    stringResource(id = R.string.hide_password)
+                Icon(
+                    imageVector = visibilityIcon,
+                    contentDescription = description
+                )
+            }
+        },
+        isError = errorMessage != null,
+        supportingText = {
+            errorMessage?.let {
+                BodyText(text = it, color = Color.Red)
+            }
+        }
     )
 }
 

@@ -10,5 +10,6 @@
 
 
     <!-- Descripcion de Imagenes y Contenido-->
-<string name="user_icon">Icono usuario</string>
+    <string name="user_icon">Icono usuario</string>
+    <string name="edit_image_icon">Icono editar imagen</string>
 </resources>

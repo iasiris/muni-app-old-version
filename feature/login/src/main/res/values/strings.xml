@@ -7,6 +7,7 @@
     <string name="email">Email</string>
     <string name="password">Contraseña</string>
     <string name="invalid_login">Email o contraseña incorrectos</string>
+    <string name="invalid_register">No se pudo registar el usuario</string>
     <string name="confirm_password">Confirmar Contraseña</string>
     <string name="full_name">Nombre Completo</string>
     <string name="do_not_have_account">No tienes una cuenta?</string>

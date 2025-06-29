@@ -3,11 +3,15 @@ package com.iasiris.feature.login.register
 import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.iasiris.core.model.User
 import com.iasiris.data.UserRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class RegisterViewModel : ViewModel() {
     private val userRepository = UserRepository()
@@ -79,7 +83,7 @@ class RegisterViewModel : ViewModel() {
 
     private fun isFullNameValid(fullName: String): Boolean = fullName.length >= 8
 
-    fun onRegister(): Boolean { // TODO agregar usuario a lista en memoria usando repo
+    fun onRegister(onResult: (Boolean) -> Unit) {
         val canRegister = _registerUiState.value.isRegisterEnabled
         if (canRegister) {
             val newUser = User(
@@ -88,11 +92,17 @@ class RegisterViewModel : ViewModel() {
                 password = _registerUiState.value.password,
                 userImageUrl = ""
             )
-            userRepository.addUser(newUser) //TODO agregar usuario a memoria
-            Log.i("RegisterViewModel", "Usuario agregado: ${users.toString()}")
-            clearRegistrationFormAndHideSheet()
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    userRepository.addUser(newUser)
+                }
+                clearRegistrationFormAndHideSheet()
+                onResult(true)
+            }
+        } else {
+            Log.d("RegisterViewModel", "Registration not enabled: $canRegister")
+            onResult(false)
         }
-        return canRegister
     }
 
     private fun clearRegistrationFormAndHideSheet() {

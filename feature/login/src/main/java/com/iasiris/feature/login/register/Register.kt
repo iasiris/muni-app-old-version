@@ -8,9 +8,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -19,8 +22,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.iasiris.feature.login.R
 import com.iasiris.library.utils.paddingExtraLarge
 import com.iasiris.library.utils.paddingMedium
@@ -30,6 +31,7 @@ import com.iasiris.library.utils.ui.components.CustomTextFieldPassword
 import com.iasiris.library.utils.ui.components.PrimaryButton
 import com.iasiris.library.utils.ui.components.SubheadText
 import com.iasiris.library.utils.ui.theme.MuniAppTheme
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,6 +41,9 @@ fun RegisterBottomSheet(
     onDismiss: () -> Unit
 ) {
     val registerUiState by registerViewModel.registerUiState.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+    val invalidRegister = stringResource(id = R.string.invalid_register)
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -101,8 +106,14 @@ fun RegisterBottomSheet(
             PrimaryButton(
                 label = stringResource(id = R.string.sing_in),
                 onClick = {
-                    if (registerViewModel.onRegister()) {
-                        navigateToHome
+                    registerViewModel.onRegister { isValid ->
+                        if (isValid) {
+                            navigateToHome
+                        } else {
+                            coroutineScope.launch {
+                                snackbarHostState.showSnackbar(invalidRegister)
+                            }
+                        }
                     }
                 },
                 enabled = registerUiState.isRegisterEnabled

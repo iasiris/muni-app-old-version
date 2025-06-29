@@ -31,8 +31,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.iasiris.feature.login.R
 import com.iasiris.feature.login.register.RegisterBottomSheet
 import com.iasiris.library.utils.paddingLarge
@@ -120,11 +118,13 @@ fun Login(
                     PrimaryButton(
                         label = stringResource(id = R.string.login),
                         onClick = {
-                            if (loginViewModel.onLogin()) {
-                                navigateToHome
-                            } else {
-                                coroutineScope.launch {
-                                    snackbarHostState.showSnackbar(invalidLogin)
+                            loginViewModel.onLogin { isValid ->
+                                if (isValid) {
+                                    navigateToHome
+                                } else {
+                                    coroutineScope.launch {
+                                        snackbarHostState.showSnackbar(invalidLogin)
+                                    }
                                 }
                             }
                         },
