@@ -1,5 +1,6 @@
 package com.iasiris.feature.profile
 
+import android.net.Uri
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import com.iasiris.core.model.User
@@ -37,7 +38,22 @@ class ProfileViewModel : ViewModel() {
         }
         verifyFieldChange("password")
     }
-    
+
+    fun onPasswordIconClick() {
+        _profileUiState.update { state ->
+            state.copy(passwordHidden = !state.passwordHidden)
+        }
+    }
+
+    fun onImageSelected(uri: Uri?) {
+        _profileUiState.update { state ->
+            state.copy(
+                user = state.user.copy(userImageUrl = uri?.toString() ?: ""),
+                imageUri = uri?.toString()
+            )
+        }
+    }
+
     fun onSaveChanges(){
         //TODO chequear la logica guardar password si es que es igual a la actual y tiene al menos 8 caracteres
         val updatedUser = _profileUiState.value.user.copy( //TODO CHECK THIS LOGIC
@@ -91,7 +107,8 @@ data class ProfileUiState(
     val isSaveEnabled: Boolean = false,
     val passwordHidden: Boolean = true,
     val emailError: String? = null,
-    val passwordError: String? = null
+    val passwordError: String? = null,
+    val imageUri: String? = null
 )
 
 enum class ProfileField {

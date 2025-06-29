@@ -1,6 +1,9 @@
 package com.iasiris.feature.profile
 
+import android.net.Uri
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,8 +36,9 @@ import coil3.compose.AsyncImage
 import com.iasiris.library.utils.paddingExtraSmall
 import com.iasiris.library.utils.paddingLarge
 import com.iasiris.library.utils.paddingMedium
-import com.iasiris.library.utils.ui.components.BackButtonConTitle
+import com.iasiris.library.utils.ui.components.BackButtonWithTitle
 import com.iasiris.library.utils.ui.components.CustomOutlinedTextField
+import com.iasiris.library.utils.ui.components.CustomOutlinedTextFieldPassword
 import com.iasiris.library.utils.ui.components.PrimaryButton
 import com.iasiris.library.utils.ui.theme.MuniAppTheme
 
@@ -43,6 +47,12 @@ fun Profile(
     profileViewModel: ProfileViewModel = viewModel()
 ) {
     val profileUiState by profileViewModel.profileUiState.collectAsStateWithLifecycle()
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        profileViewModel.onImageSelected(uri)
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -54,17 +64,17 @@ fun Profile(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            BackButtonConTitle(//TODO agregar logica para back button
+            BackButtonWithTitle(//TODO agregar logica para back button
                 title = stringResource(id = R.string.profile_title),
                 onBackButtonClick = { } //TODO
             )
 
             IconButton(
-                onClick = { }, //TODO agregar logica para editar perfil
+                onClick = { launcher.launch("image/*") }, //TODO check this logic
                 modifier = Modifier
                     .size(100.dp)
                     .clip(CircleShape)
-                    .background(Color.Cyan) //REPLACE WITH IMAGE
+                    .background(Color.Cyan) //TODO REPLACE WITH IMAGE
 
             ) {
                 AsyncImage(
@@ -91,11 +101,13 @@ fun Profile(
                 leadingIcon = Icons.Default.Email,
             )
 
-            CustomOutlinedTextField(
+            CustomOutlinedTextFieldPassword(
                 label = stringResource(id = R.string.password),
                 text = profileUiState.user.password,
                 onValueChange = { profileViewModel::onPasswordChange },
                 leadingIcon = Icons.Default.Password,
+                passwordHidden = profileUiState.passwordHidden,
+                onVisibilityToggle = { profileViewModel.onPasswordIconClick() },
             )
 
             CustomOutlinedTextField(
@@ -121,10 +133,10 @@ fun Profile(
                     .padding(horizontal = paddingExtraSmall),
                 enabled = profileUiState.isSaveEnabled
             )
-
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
